@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: ascend-capital
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ACCOUNT_STORAGE_MODE
+        value: ephemeral
+      - key: DATABASE_PATH
+        value: /tmp/ascend/accounts.sqlite
+      - key: TRUST_PROXY_HOPS
+        value: "1"
+      - key: INITIAL_ADMIN_EMAIL
+        sync: false
+      - key: INITIAL_ADMIN_PASSWORD
+        sync: false
+      - key: BINANCE_WALLET_ADDRESS
+        sync: false
