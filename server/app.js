@@ -588,7 +588,7 @@ export function createApp({ databasePath }) {
   }));
 
   app.get('/api/public-config', (_request, response) => response.json({
-    binanceWalletAddress: process.env.BINANCE_WALLET_ADDRESS?.trim() ?? '',
+    primeWalletAddress: process.env.PRIME_WALLET_ADDRESS?.trim() ?? '',
   }));
 
   app.post('/api/auth/register', authRateLimit, async (request, response, next) => {
@@ -1200,7 +1200,7 @@ export function createApp({ databasePath }) {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-// TRADING SYSTEM (added at end, will be moved to top in refactor)
+// PRIME HOUR TRADING SYSTEM
 // ────────────────────────────────────────────────────────────────────────────
 
 const DEPOSIT_PACKAGES = [300, 400, 500, 750, 1000, 2000, 5000, 10000, 20000, 35000];
@@ -1217,7 +1217,7 @@ const DAILY_TRADE_PROFITS = {
   35000: 1400,
 };
 
-const TRADE_HOUR = parseInt(process.env.TRADE_HOUR || '5');
+const PRIME_HOUR = parseInt(process.env.PRIME_HOUR || '5');
 const TRADE_SYMBOL = process.env.TRADE_SYMBOL || 'BTCUSDT';
 
 function calculateDailyProfit(totalDeposit) {
@@ -1313,15 +1313,17 @@ async function runDailyTrades() {
   }
 }
 
+let lastTradeDate = null;
 function startTradeScheduler() {
   setInterval(async () => {
     const now = new Date();
-    if (now.getHours() === TRADE_HOUR && now.getMinutes() === 0) {
+    if (now.getHours() === PRIME_HOUR && now.getMinutes() === 0 && lastTradeDate !== now.toDateString()) {
+      lastTradeDate = now.toDateString();
       console.log(`[${now.toISOString()}] Running daily trades...`);
       await runDailyTrades();
     }
   }, 60000);
-  console.log(`Trade scheduler started (runs at ${TRADE_HOUR}:00 UTC daily)`);
+  console.log(`Trade scheduler started (runs at ${PRIME_HOUR}:00 UTC daily)`);
 }
 
 // Start scheduler on app init
@@ -1354,4 +1356,3 @@ app.get('/api/client/balance-history', requireAccount, (request, response) => {
   
   return response.json({ events: events.sort((a, b) => new Date(b.date) - new Date(a.date)) });
 });
-
