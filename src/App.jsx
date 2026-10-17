@@ -1,8 +1,96 @@
 import React, { useEffect, useState } from 'react';
-import './styles-enc-layout.css';
+import './styles.css'; // Using your EXISTING styles.css
 import { ReferralPage } from './referral-page.jsx';
 
-export default function AppWithENCLayout() {
+function AuthPage({ mode, name, email, password, referralCode, error, onNameChange, onEmailChange, onPasswordChange, onReferralCodeChange, onSubmit, onNavigate }) {
+  const registering = mode === 'register';
+  const [emailCode, setEmailCode] = useState('');
+  const [codeSent, setCodeSent] = useState(false);
+
+  const handleSendCode = async () => {
+    setCodeSent(true);
+  };
+
+  return (
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-brand">
+          <h2>Ascend Capital</h2>
+          <p>{registering ? 'Create account' : 'Sign in'}</p>
+        </div>
+
+        {error && <div className="auth-error">{error}</div>}
+
+        <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
+          {registering && (
+            <>
+              <label className="account-field">
+                Full Name
+                <input type="text" value={name} onChange={(e) => onNameChange(e.target.value)} placeholder="Enter your name" />
+              </label>
+            </>
+          )}
+
+          <label className="account-field">
+            Email Address
+            <input type="email" value={email} onChange={(e) => onEmailChange(e.target.value)} placeholder="Enter email address" />
+          </label>
+
+          {registering && codeSent && (
+            <label className="account-field">
+              Email Verification Code
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input type="text" value={emailCode} onChange={(e) => setEmailCode(e.target.value)} placeholder="Enter 6-digit code" maxLength={6} />
+                <button type="button" onClick={handleSendCode} style={{ padding: '8px 12px', background: '#4ade80', color: '#000', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', whiteSpace: 'nowrap' }}>Resend</button>
+              </div>
+            </label>
+          )}
+
+          {registering && !codeSent && (
+            <button type="button" onClick={handleSendCode} style={{ width: '100%', padding: '10px', background: '#4ade80', color: '#000', border: 'none', borderRadius: '4px', fontWeight: '600', cursor: 'pointer', marginBottom: '12px' }}>Send Verification Code</button>
+          )}
+
+          <label className="account-field">
+            Password
+            <input type="password" value={password} onChange={(e) => onPasswordChange(e.target.value)} placeholder="Enter password" />
+          </label>
+
+          {registering && (
+            <>
+              <label className="account-field">
+                Confirm Password
+                <input type="password" placeholder="Confirm password" />
+              </label>
+
+              <label className="account-field">
+                Invitation Code
+                <input type="text" value={referralCode} onChange={(e) => onReferralCodeChange(e.target.value.toUpperCase())} placeholder="Enter referral code" maxLength={16} />
+              </label>
+
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', marginBottom: '16px' }}>
+                <input type="checkbox" required />
+                I have read and agree to the Platform Terms of Service and Privacy Policy
+              </label>
+            </>
+          )}
+
+          <button type="submit" style={{ width: '100%', padding: '12px', background: '#4ade80', color: '#000', border: 'none', borderRadius: '4px', fontWeight: '600', cursor: 'pointer', fontSize: '14px' }}>
+            {registering ? 'Create account' : 'Sign in'}
+          </button>
+        </form>
+
+        <p style={{ textAlign: 'center', fontSize: '12px', marginTop: '12px' }}>
+          {registering ? 'Already have an account? ' : "Don't have an account? "}
+          <button onClick={() => onNavigate(registering ? '/login' : '/register')} style={{ background: 'none', border: 'none', color: '#4ade80', cursor: 'pointer', textDecoration: 'underline' }}>
+            {registering ? 'Sign in' : 'Create account'}
+          </button>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
   const [account, setAccount] = useState(undefined);
   const [page, setPage] = useState('/');
   const [accountName, setAccountName] = useState('');
@@ -87,10 +175,26 @@ export default function AppWithENCLayout() {
   const showLoginForm = !account && (page === '/login' || page === '/register');
 
   return (
-    <div className="app-container-enc">
+    <div className="app-container">
+      {showLoginForm && (
+        <AuthPage
+          mode={page === '/register' ? 'register' : 'login'}
+          name={accountName}
+          email={accountEmail}
+          password={accountPassword}
+          referralCode={accountReferral}
+          error={accountError}
+          onNameChange={setAccountName}
+          onEmailChange={setAccountEmail}
+          onPasswordChange={setAccountPassword}
+          onReferralCodeChange={setAccountReferral}
+          onSubmit={submitAccount}
+          onNavigate={navigate}
+        />
+      )}
+
       {account && !showLoginForm && (
-        <div className="dashboard-container-enc">
-          {/* Header */}
+        <div className="dashboard-wrapper-enc">
           <header className="dashboard-header-enc">
             <div className="header-left-enc">
               <h1 className="header-logo-enc">Ascend Capital</h1>
@@ -102,7 +206,6 @@ export default function AppWithENCLayout() {
             </div>
           </header>
 
-          {/* Main Content */}
           <main className="dashboard-main-enc">
             {selectedNav === 'home' && (
               <>
@@ -146,14 +249,6 @@ export default function AppWithENCLayout() {
                       <p className="asset-card-label-enc">Available Balance</p>
                       <p className="asset-card-value-enc">${(account.balance / 100).toFixed(2)}</p>
                     </div>
-                  </div>
-                </div>
-
-                {/* Flash Exchange Section (Placeholder) */}
-                <div className="flash-exchange-enc">
-                  <h3 className="section-title-enc">Flash exchange</h3>
-                  <div style={{ padding: '24px', textAlign: 'center', color: '#828d84' }}>
-                    <p>Coming soon</p>
                   </div>
                 </div>
 
@@ -202,11 +297,11 @@ export default function AppWithENCLayout() {
             </button>
             <button className={`nav-item-enc ${selectedNav === 'referrals' ? 'active-enc' : ''}`} onClick={() => setSelectedNav('referrals')}>
               <span className="nav-icon-enc">👥</span>
-              <span>Agent</span>
+              <span>Referrals</span>
             </button>
             <button className={`nav-item-enc ${selectedNav === 'deposits' ? 'active-enc' : ''}`} onClick={() => setSelectedNav('deposits')}>
               <span className="nav-icon-enc">💳</span>
-              <span>Devices</span>
+              <span>Deposits</span>
             </button>
             <button className={`nav-item-enc ${selectedNav === 'invite' ? 'active-enc' : ''}`} onClick={() => setSelectedNav('invite')}>
               <span className="nav-icon-enc">🔗</span>
@@ -224,12 +319,6 @@ export default function AppWithENCLayout() {
         <div style={{ padding: '40px 20px', textAlign: 'center', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0b100e' }}>
           <button onClick={() => navigate('/login')} style={{ padding: '12px 24px', marginRight: '12px', background: '#b7ed7b', color: '#0b100e', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: '600' }}>Sign In</button>
           <button onClick={() => navigate('/register')} style={{ padding: '12px 24px', background: '#111713', color: '#eff2eb', border: '1px solid #252e28', borderRadius: '6px', cursor: 'pointer' }}>Create Account</button>
-        </div>
-      )}
-
-      {showLoginForm && (
-        <div className="auth-container-enc" style={{ padding: '20px', textAlign: 'center', color: '#888' }}>
-          Auth Form (implement based on original)
         </div>
       )}
     </div>
