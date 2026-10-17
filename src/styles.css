@@ -1,40 +1,16 @@
-/* Color Variables - Ascend Capital Palette */
-:root {
-  --bg-dark: #0b100e;
-  --panel-dark: #111713;
-  --panel-raised: #151c17;
-  --border-color: #252e28;
-  --text-primary: #eff2eb;
-  --text-muted: #828d84;
-  --text-dim: #68746b;
-  --green-primary: #b7ed7b;
-  --green-accent: #4ade80;
-  --green-deep: #94cb55;
-}
+/* ========================================
+   ENC LAYOUT ADDITIONS FOR STYLES.CSS
+   
+   Copy everything below and APPEND to the end
+   of your existing src/styles.css file
+   ======================================== */
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--bg-dark);
-  color: var(--text-primary);
-}
-
-.app-container-enc {
-  min-height: 100vh;
-  background: var(--bg-dark);
-}
-
-/* Dashboard Container */
-.dashboard-container-enc {
+/* Dashboard Wrapper */
+.dashboard-wrapper-enc {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  max-width: 100%;
+  background: #0b100e;
 }
 
 /* Header - ENC Style */
@@ -43,8 +19,8 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--border-color);
-  background: var(--bg-dark);
+  border-bottom: 1px solid #252e28;
+  background: #0b100e;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -60,14 +36,14 @@ body {
   margin: 0;
   font-size: 20px;
   font-weight: 700;
-  color: var(--green-primary);
+  color: #b7ed7b;
   letter-spacing: -0.5px;
 }
 
 .header-title-enc {
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #eff2eb;
 }
 
 .language-selector-enc {
@@ -75,18 +51,18 @@ body {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #252e28;
   border-radius: 6px;
-  background: var(--panel-dark);
-  color: var(--text-primary);
+  background: #111713;
+  color: #eff2eb;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .language-selector-enc:hover {
-  border-color: var(--green-primary);
-  background: var(--panel-raised);
+  border-color: #b7ed7b;
+  background: #151c17;
 }
 
 .lang-icon-enc {
@@ -109,9 +85,9 @@ body {
   gap: 32px;
   padding: 32px;
   margin-bottom: 28px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #252e28;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--panel-dark) 0%, var(--panel-raised) 100%);
+  background: linear-gradient(135deg, #111713 0%, #151c17 100%);
 }
 
 .assets-left-enc {
@@ -122,24 +98,24 @@ body {
 
 .asset-label-enc {
   font-size: 12px;
-  color: var(--text-muted);
+  color: #828d84;
   font-weight: 600;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
+  text-transform: lowercase;
 }
 
 .asset-amount-enc {
   margin: 0;
   font-size: 48px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #eff2eb;
   letter-spacing: -1px;
 }
 
 .asset-currency-enc {
   margin: 4px 0 0;
   font-size: 14px;
-  color: var(--text-muted);
+  color: #828d84;
   font-weight: 500;
 }
 
@@ -161,9 +137,9 @@ body {
   gap: 16px;
   padding: 24px;
   margin-bottom: 28px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #252e28;
   border-radius: 12px;
-  background: var(--panel-dark);
+  background: #111713;
 }
 
 .breakdown-item-enc {
@@ -175,7 +151,7 @@ body {
 .breakdown-label-enc {
   margin: 0;
   font-size: 12px;
-  color: var(--text-muted);
+  color: #828d84;
   font-weight: 500;
 }
 
@@ -183,7 +159,7 @@ body {
   margin: 0;
   font-size: 24px;
   font-weight: 700;
-  color: var(--green-primary);
+  color: #b7ed7b;
   letter-spacing: -0.5px;
 }
 
@@ -196,7 +172,7 @@ body {
   margin: 0 0 16px;
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #eff2eb;
   letter-spacing: -0.3px;
 }
 
@@ -208,14 +184,14 @@ body {
 
 .asset-card-enc {
   padding: 24px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #252e28;
   border-radius: 10px;
-  background: linear-gradient(140deg, var(--panel-dark) 0%, var(--panel-raised) 100%);
+  background: linear-gradient(140deg, #111713 0%, #151c17 100%);
   transition: all 0.3s ease;
 }
 
 .asset-card-enc:hover {
-  border-color: var(--green-primary);
+  border-color: #b7ed7b;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(183, 237, 123, 0.08);
 }
@@ -223,7 +199,7 @@ body {
 .asset-card-label-enc {
   margin: 0 0 12px;
   font-size: 12px;
-  color: var(--text-muted);
+  color: #828d84;
   font-weight: 500;
 }
 
@@ -231,20 +207,8 @@ body {
   margin: 0;
   font-size: 28px;
   font-weight: 700;
-  color: var(--green-primary);
+  color: #b7ed7b;
   letter-spacing: -0.5px;
-}
-
-/* Flash Exchange Section */
-.flash-exchange-enc {
-  margin-bottom: 28px;
-}
-
-.flash-exchange-enc > div {
-  padding: 32px !important;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  background: var(--panel-dark);
 }
 
 /* Verification Alert - ENC Yellow Style */
@@ -287,8 +251,8 @@ body {
 
 .verify-button-enc {
   padding: 10px 20px;
-  background: linear-gradient(135deg, var(--green-primary) 0%, var(--green-accent) 100%);
-  color: var(--bg-dark);
+  background: linear-gradient(135deg, #b7ed7b 0%, #4ade80 100%);
+  color: #0b100e;
   border: none;
   border-radius: 6px;
   font-weight: 600;
@@ -312,8 +276,8 @@ body {
   grid-template-columns: repeat(5, 1fr);
   gap: 0;
   padding: 12px 0;
-  border-top: 1px solid var(--border-color);
-  background: var(--panel-dark);
+  border-top: 1px solid #252e28;
+  background: #111713;
   z-index: 100;
 }
 
@@ -325,18 +289,18 @@ body {
   padding: 12px 8px;
   border: none;
   background: transparent;
-  color: var(--text-muted);
+  color: #828d84;
   font-size: 11px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .nav-item-enc:hover {
-  color: var(--text-primary);
+  color: #eff2eb;
 }
 
 .nav-item-enc.active-enc {
-  color: var(--green-primary);
+  color: #b7ed7b;
   background: rgba(183, 237, 123, 0.05);
 }
 
@@ -474,30 +438,6 @@ body {
   }
 }
 
-/* Scrollbar Styling */
-.dashboard-main-enc::-webkit-scrollbar {
-  width: 8px;
-}
-
-.dashboard-main-enc::-webkit-scrollbar-track {
-  background: var(--bg-dark);
-}
-
-.dashboard-main-enc::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 4px;
-}
-
-.dashboard-main-enc::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
-/* Button Defaults */
-button {
-  font-family: inherit;
-}
-
-button:focus-visible {
-  outline: 2px solid var(--green-primary);
-  outline-offset: 2px;
-}
+/* ========================================
+   END OF ENC LAYOUT ADDITIONS
+   ======================================== */
